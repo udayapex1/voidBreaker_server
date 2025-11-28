@@ -53,3 +53,18 @@ export const getAllSchedules = async (req, res) => {
         return ApiResponse(res, 500, "Internal server error", { error: error.message });
     }
 };
+
+export const getAllEvents = async (req, res) => {
+    try {
+        const events = await Event.find();
+
+        return ApiResponse(res, 200, "All events fetched successfully", events);
+    } catch (error) {
+        return ApiResponse(
+            res,
+            500,
+            "Internal server error",
+            { error: error.message }
+        );
+    }
+};

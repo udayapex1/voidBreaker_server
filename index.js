@@ -11,6 +11,7 @@ import classRoutes from "./routes/Class.routes.js";
 import departmentRoutes from "./routes/Department.routes.js"
 import subjectRoutes from "./routes/Subject.routes.js"
 import scheduleRoutes from "./routes/Schedule.routes.js"
+import eventRoutes from "./routes/Event.routes.js"
 dotenv.config();
 
 const app = express();
@@ -74,6 +75,7 @@ app.use("/api/classes", classRoutes);
 app.use("/api/departments", departmentRoutes);
 app.use("/api/subjects", subjectRoutes);
 app.use("/api/schedules", scheduleRoutes);
+app.use("/api/events", eventRoutes);
 
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
