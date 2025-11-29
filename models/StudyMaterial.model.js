@@ -22,13 +22,13 @@ const studyMaterialSchema = new mongoose.Schema(
 
         class_id: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Class",
+            ref: "ClassModel",
             required: true,
         },
 
-        teacher_id: {
+        uploader_id: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User", // or "Teacher" if separate
+            ref: "User", // assuming teacher is also a user
             required: true,
         },
     },

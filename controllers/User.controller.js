@@ -119,10 +119,10 @@ export const loginUser = async (req, res) => {
             return res.status(401).json({ message: "Invalid credentials" });
         }
 
-        await createToken(user._id, res);
+        const token = await createToken(user._id, res);
         const payload = user.toJSON();
 
-        return ApiResponse(res, 200, "Login successful", { user: payload });
+        return ApiResponse(res, 200, "Login successful", { user: payload, token });
     } catch (error) {
         console.error("Login error:", error);
         return res.status(500).json({ message: "Server error" });

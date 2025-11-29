@@ -19,12 +19,15 @@ A comprehensive backend API for managing educational institutions with support f
 ## Overview
 
 ### Base URL
+
 ```
 http://localhost:5000
 ```
 
 ### API Prefix
+
 All endpoints use the following prefixes:
+
 - `/api/users` - User management
 - `/api/teachers` - Teacher management
 - `/api/classes` - Class management
@@ -34,23 +37,27 @@ All endpoints use the following prefixes:
 - `/api/events` - Event management
 
 ### Authentication
+
 Most endpoints require JWT authentication via bearer token in the Authorization header.
 
 ---
 
-## Authentication
+## Authentication/
 
 ### Authorization Header
+
 ```
 Authorization: Bearer <jwt_token>
 ```
 
 ### User Roles
+
 - `student` - Student user role
 - `teacher` - Teacher user role
 - `admin` - Administrator role
 
 ### Protected Endpoints
+
 Endpoints marked with 🔒 require authentication. Some endpoints require specific roles (Admin, Teacher/Admin).
 
 ---
@@ -58,6 +65,7 @@ Endpoints marked with 🔒 require authentication. Some endpoints require specif
 ## User Endpoints
 
 ### 1. Register User
+
 **Endpoint:** `POST /api/users/register`
 
 **Authentication:** ❌ Not required
@@ -65,6 +73,7 @@ Endpoints marked with 🔒 require authentication. Some endpoints require specif
 **Description:** Register a new user with profile photo
 
 **Required Fields:**
+
 - `name` (String) - User's full name
 - `email` (String) - User's email address (unique, lowercase)
 - `password` (String) - User's password
@@ -73,6 +82,7 @@ Endpoints marked with 🔒 require authentication. Some endpoints require specif
 - `profile_photo` (File) - Profile photo file (required)
 
 **Optional Fields:**
+
 - `year` (Number) - Academic year
 - `section` (String) - Class section
 - `skills` (Array[String]) - Array of skill strings
@@ -80,12 +90,14 @@ Endpoints marked with 🔒 require authentication. Some endpoints require specif
 - `class_id` (ObjectId) - Reference to Class
 
 **Allowed Photo Formats:**
+
 - `image/jpeg`
 - `image/jpg`
 - `image/png`
 - `image/webp`
 
 **Example Request:**
+
 ```bash
 curl -X POST http://localhost:5000/api/users/register \
   -F "name=John Doe" \
@@ -99,6 +111,7 @@ curl -X POST http://localhost:5000/api/users/register \
 ```
 
 **Success Response (200):**
+
 ```json
 {
   "message": "User registered successfully.",
@@ -121,6 +134,7 @@ curl -X POST http://localhost:5000/api/users/register \
 ---
 
 ### 2. Login User
+
 **Endpoint:** `POST /api/users/login`
 
 **Authentication:** ❌ Not required
@@ -128,10 +142,12 @@ curl -X POST http://localhost:5000/api/users/register \
 **Description:** Authenticate user and receive JWT token
 
 **Required Fields:**
+
 - `email` (String) - User's email
 - `password` (String) - User's password
 
 **Example Request:**
+
 ```bash
 curl -X POST http://localhost:5000/api/users/login \
   -H "Content-Type: application/json" \
@@ -142,6 +158,7 @@ curl -X POST http://localhost:5000/api/users/login \
 ```
 
 **Success Response (200):**
+
 ```json
 {
   "message": "Login successful",
@@ -158,6 +175,7 @@ curl -X POST http://localhost:5000/api/users/login \
 ---
 
 ### 3. Get All Users
+
 **Endpoint:** `GET /api/users/`
 
 **Authentication:** ❌ Not required
@@ -165,11 +183,13 @@ curl -X POST http://localhost:5000/api/users/login \
 **Description:** Retrieve list of all users
 
 **Example Request:**
+
 ```bash
 curl http://localhost:5000/api/users/
 ```
 
 **Success Response (200):**
+
 ```json
 {
   "users": [
@@ -187,6 +207,7 @@ curl http://localhost:5000/api/users/
 ---
 
 ### 4. Get My Profile
+
 **Endpoint:** `GET /api/users/me`
 
 **Authentication:** 🔒 Required
@@ -194,12 +215,14 @@ curl http://localhost:5000/api/users/
 **Description:** Get authenticated user's profile
 
 **Example Request:**
+
 ```bash
 curl http://localhost:5000/api/users/me \
   -H "Authorization: Bearer <jwt_token>"
 ```
 
 **Success Response (200):**
+
 ```json
 {
   "status": "success",
@@ -219,6 +242,7 @@ curl http://localhost:5000/api/users/me \
 ---
 
 ### 5. Logout User
+
 **Endpoint:** `POST /api/users/logout`
 
 **Authentication:** 🔒 Required
@@ -226,12 +250,14 @@ curl http://localhost:5000/api/users/me \
 **Description:** Logout user and invalidate token
 
 **Example Request:**
+
 ```bash
 curl -X POST http://localhost:5000/api/users/logout \
   -H "Authorization: Bearer <jwt_token>"
 ```
 
 **Success Response (200):**
+
 ```json
 {
   "message": "Logged out successfully"
@@ -241,6 +267,7 @@ curl -X POST http://localhost:5000/api/users/logout \
 ---
 
 ### 6. Test API
+
 **Endpoint:** `GET /api/users/test`
 
 **Authentication:** 🔒 Required (Teacher or Admin only)
@@ -248,6 +275,7 @@ curl -X POST http://localhost:5000/api/users/logout \
 **Description:** Test endpoint for teacher/admin users
 
 **Example Request:**
+
 ```bash
 curl http://localhost:5000/api/users/test \
   -H "Authorization: Bearer <jwt_token>"
@@ -258,6 +286,7 @@ curl http://localhost:5000/api/users/test \
 ## Teacher Endpoints
 
 ### 1. Get All Teachers
+
 **Endpoint:** `GET /api/teachers/allTeachers`
 
 **Authentication:** 🔒 Required (Teacher or Admin only)
@@ -265,12 +294,14 @@ curl http://localhost:5000/api/users/test \
 **Description:** Retrieve list of all teachers
 
 **Example Request:**
+
 ```bash
 curl http://localhost:5000/api/teachers/allTeachers \
   -H "Authorization: Bearer <jwt_token>"
 ```
 
 **Success Response (200):**
+
 ```json
 {
   "teachers": [
@@ -290,6 +321,7 @@ curl http://localhost:5000/api/teachers/allTeachers \
 ## Class Endpoints
 
 ### 1. Create Class
+
 **Endpoint:** `POST /api/classes/createClass`
 
 **Authentication:** 🔒 Required (Admin only)
@@ -297,14 +329,17 @@ curl http://localhost:5000/api/teachers/allTeachers \
 **Description:** Create a new class
 
 **Required Fields:**
+
 - `year` (Number) - Academic year
 - `section` (String) - Class section (e.g., "A", "B", "C")
 - `department_id` (ObjectId) - Reference to Department
 
 **Optional Fields:**
+
 - `class_teacher_id` (ObjectId) - Reference to Teacher (User with teacher role)
 
 **Example Request:**
+
 ```bash
 curl -X POST http://localhost:5000/api/classes/createClass \
   -H "Authorization: Bearer <jwt_token>" \
@@ -318,6 +353,7 @@ curl -X POST http://localhost:5000/api/classes/createClass \
 ```
 
 **Success Response (201):**
+
 ```json
 {
   "message": "Class created successfully",
@@ -336,6 +372,7 @@ curl -X POST http://localhost:5000/api/classes/createClass \
 ---
 
 ### 2. Get All Classes
+
 **Endpoint:** `GET /api/classes/getAllClasses`
 
 **Authentication:** 🔒 Required (Teacher or Admin only)
@@ -343,12 +380,14 @@ curl -X POST http://localhost:5000/api/classes/createClass \
 **Description:** Retrieve list of all classes
 
 **Example Request:**
+
 ```bash
 curl http://localhost:5000/api/classes/getAllClasses \
   -H "Authorization: Bearer <jwt_token>"
 ```
 
 **Success Response (200):**
+
 ```json
 {
   "classes": [
@@ -369,6 +408,7 @@ curl http://localhost:5000/api/classes/getAllClasses \
 ## Department Endpoints
 
 ### 1. Create Department
+
 **Endpoint:** `POST /api/departments/createDepartment`
 
 **Authentication:** 🔒 Required (Admin only)
@@ -376,9 +416,11 @@ curl http://localhost:5000/api/classes/getAllClasses \
 **Description:** Create a new department
 
 **Required Fields:**
+
 - `department_name` (String) - Name of the department (trimmed)
 
 **Example Request:**
+
 ```bash
 curl -X POST http://localhost:5000/api/departments/createDepartment \
   -H "Authorization: Bearer <jwt_token>" \
@@ -389,6 +431,7 @@ curl -X POST http://localhost:5000/api/departments/createDepartment \
 ```
 
 **Success Response (201):**
+
 ```json
 {
   "message": "Department created successfully",
@@ -404,6 +447,7 @@ curl -X POST http://localhost:5000/api/departments/createDepartment \
 ---
 
 ### 2. Get All Departments
+
 **Endpoint:** `GET /api/departments/getAllDepartments`
 
 **Authentication:** 🔒 Required (Teacher or Admin only)
@@ -411,12 +455,14 @@ curl -X POST http://localhost:5000/api/departments/createDepartment \
 **Description:** Retrieve list of all departments
 
 **Example Request:**
+
 ```bash
 curl http://localhost:5000/api/departments/getAllDepartments \
   -H "Authorization: Bearer <jwt_token>"
 ```
 
 **Success Response (200):**
+
 ```json
 {
   "departments": [
@@ -435,6 +481,7 @@ curl http://localhost:5000/api/departments/getAllDepartments \
 ## Subject Endpoints
 
 ### 1. Create Subject
+
 **Endpoint:** `POST /api/subjects/createSubject`
 
 **Authentication:** 🔒 Required (Admin only)
@@ -442,10 +489,12 @@ curl http://localhost:5000/api/departments/getAllDepartments \
 **Description:** Create a new subject
 
 **Required Fields:**
+
 - `subject_name` (String) - Name of the subject (trimmed)
 - `subject_code` (String) - Unique subject code (uppercase, trimmed, unique)
 
 **Example Request:**
+
 ```bash
 curl -X POST http://localhost:5000/api/subjects/createSubject \
   -H "Authorization: Bearer <jwt_token>" \
@@ -457,6 +506,7 @@ curl -X POST http://localhost:5000/api/subjects/createSubject \
 ```
 
 **Success Response (201):**
+
 ```json
 {
   "message": "Subject created successfully",
@@ -473,6 +523,7 @@ curl -X POST http://localhost:5000/api/subjects/createSubject \
 ---
 
 ### 2. Get All Subjects
+
 **Endpoint:** `GET /api/subjects/getAllSubjects`
 
 **Authentication:** 🔒 Required (Teacher or Admin only)
@@ -480,12 +531,14 @@ curl -X POST http://localhost:5000/api/subjects/createSubject \
 **Description:** Retrieve list of all subjects
 
 **Example Request:**
+
 ```bash
 curl http://localhost:5000/api/subjects/getAllSubjects \
   -H "Authorization: Bearer <jwt_token>"
 ```
 
 **Success Response (200):**
+
 ```json
 {
   "subjects": [
@@ -504,6 +557,7 @@ curl http://localhost:5000/api/subjects/getAllSubjects \
 ## Schedule Endpoints
 
 ### 1. Create Schedule
+
 **Endpoint:** `POST /api/schedules/createSchedule`
 
 **Authentication:** 🔒 Required (Admin only)
@@ -511,6 +565,7 @@ curl http://localhost:5000/api/subjects/getAllSubjects \
 **Description:** Create a class schedule
 
 **Required Fields:**
+
 - `day` (Number) - Day of week (0-6, where 0 = Sunday, 6 = Saturday)
 - `start_time` (String) - Class start time (e.g., "09:00")
 - `end_time` (String) - Class end time (e.g., "10:00")
@@ -519,6 +574,7 @@ curl http://localhost:5000/api/subjects/getAllSubjects \
 - `teacher_id` (ObjectId) - Reference to Teacher (User)
 
 **Example Request:**
+
 ```bash
 curl -X POST http://localhost:5000/api/schedules/createSchedule \
   -H "Authorization: Bearer <jwt_token>" \
@@ -534,6 +590,7 @@ curl -X POST http://localhost:5000/api/schedules/createSchedule \
 ```
 
 **Success Response (201):**
+
 ```json
 {
   "message": "Schedule created successfully",
@@ -552,6 +609,7 @@ curl -X POST http://localhost:5000/api/schedules/createSchedule \
 ```
 
 **Day Mapping:**
+
 - `0` = Sunday
 - `1` = Monday
 - `2` = Tuesday
@@ -563,6 +621,7 @@ curl -X POST http://localhost:5000/api/schedules/createSchedule \
 ---
 
 ### 2. Get All Schedules
+
 **Endpoint:** `GET /api/schedules/getAllSchedules`
 
 **Authentication:** 🔒 Required (Teacher or Admin only)
@@ -570,12 +629,14 @@ curl -X POST http://localhost:5000/api/schedules/createSchedule \
 **Description:** Retrieve list of all class schedules
 
 **Example Request:**
+
 ```bash
 curl http://localhost:5000/api/schedules/getAllSchedules \
   -H "Authorization: Bearer <jwt_token>"
 ```
 
 **Success Response (200):**
+
 ```json
 {
   "schedules": [
@@ -598,6 +659,7 @@ curl http://localhost:5000/api/schedules/getAllSchedules \
 ## Event Endpoints
 
 ### 1. Create Event
+
 **Endpoint:** `POST /api/events/createEvent`
 
 **Authentication:** 🔒 Required (Teacher or Admin only)
@@ -605,6 +667,7 @@ curl http://localhost:5000/api/schedules/getAllSchedules \
 **Description:** Create a new event
 
 **Required Fields:**
+
 - `title` (String) - Event title (trimmed)
 - `description` (String) - Event description (trimmed)
 - `start_date` (Date) - Event start date (ISO format: "YYYY-MM-DDTHH:mm:ss.sssZ")
@@ -612,11 +675,13 @@ curl http://localhost:5000/api/schedules/getAllSchedules \
 - `location` (String) - Event location
 
 **Optional Fields:**
+
 - `media_url` (String) - URL to event media (image/video)
 
 **Note:** `created_by` is automatically set to the authenticated user's ID
 
 **Example Request:**
+
 ```bash
 curl -X POST http://localhost:5000/api/events/createEvent \
   -H "Authorization: Bearer <jwt_token>" \
@@ -632,6 +697,7 @@ curl -X POST http://localhost:5000/api/events/createEvent \
 ```
 
 **Success Response (201):**
+
 ```json
 {
   "message": "Event created successfully",
@@ -653,6 +719,7 @@ curl -X POST http://localhost:5000/api/events/createEvent \
 ---
 
 ### 2. Get All Events
+
 **Endpoint:** `GET /api/events/getAllEvents`
 
 **Authentication:** 🔒 Required (Teacher or Admin only)
@@ -660,12 +727,14 @@ curl -X POST http://localhost:5000/api/events/createEvent \
 **Description:** Retrieve list of all events
 
 **Example Request:**
+
 ```bash
 curl http://localhost:5000/api/events/getAllEvents \
   -H "Authorization: Bearer <jwt_token>"
 ```
 
 **Success Response (200):**
+
 ```json
 {
   "events": [
@@ -691,6 +760,7 @@ curl http://localhost:5000/api/events/getAllEvents \
 ### Common Error Codes
 
 **400 - Bad Request**
+
 ```json
 {
   "message": "Please fill required fields"
@@ -698,6 +768,7 @@ curl http://localhost:5000/api/events/getAllEvents \
 ```
 
 **401 - Unauthorized**
+
 ```json
 {
   "message": "Authentication required"
@@ -705,6 +776,7 @@ curl http://localhost:5000/api/events/getAllEvents \
 ```
 
 **403 - Forbidden**
+
 ```json
 {
   "message": "Insufficient permissions"
@@ -712,6 +784,7 @@ curl http://localhost:5000/api/events/getAllEvents \
 ```
 
 **409 - Conflict**
+
 ```json
 {
   "message": "User already exists"
@@ -719,6 +792,7 @@ curl http://localhost:5000/api/events/getAllEvents \
 ```
 
 **500 - Server Error**
+
 ```json
 {
   "message": "Server error"
